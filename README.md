@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚡ Saiyan Legacy
 
-## Getting Started
+> Explore l'univers Dragon Ball à travers une interface immersive — personnages, relations, transformations, et moteur de requêtes IA.
 
-First, run the development server:
+![Status](https://img.shields.io/badge/status-en%20développement-orange)
+![Stack](https://img.shields.io/badge/stack-Next.js%20%7C%20TypeScript%20%7C%20Prisma-blue)
+
+---
+
+## 🎯 Concept
+
+Saiyan Legacy est une application fullstack qui permet d'explorer les données relationnelles de l'univers Dragon Ball : personnages, liens familiaux, transformations, niveaux de puissance. Un moteur IA permet des requêtes en langage naturel ("Quels Saiyans sont liés à Goku ?").
+
+---
+
+## ✨ Fonctionnalités
+
+- 🧬 Visualisation des personnages et de leurs relations
+- ⚡ Suivi des transformations par personnage
+- 🤖 Requêtes IA en langage naturel
+- 🗺️ Graphe de relations interactif
+- 📱 Interface responsive et animée
+
+---
+
+## 🛠️ Stack technique
+
+| Couche | Technologie |
+|--------|-------------|
+| Framework | Next.js 14 (App Router) |
+| Langage | TypeScript |
+| UI | React + Tailwind CSS |
+| Animations | Framer Motion |
+| ORM | Prisma |
+| Base de données | PostgreSQL (Neon) |
+| Déploiement | Vercel |
+
+---
+
+## 🚀 Installation
 
 ```bash
+# Cloner le repo
+git clone https://github.com/TON_USERNAME/saiyan-legacy.git
+cd saiyan-legacy
+
+# Installer les dépendances
+npm install
+
+# Configurer les variables d'environnement
+cp .env.example .env.local
+# → renseigner DATABASE_URL
+
+# Pousser le schéma Prisma
+npx prisma db push
+
+# Lancer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Structure du projet
 
-## Learn More
+```
+src/
+├── app/              # Routes Next.js (App Router)
+│   ├── api/          # API Routes
+│   │   ├── characters/
+│   │   ├── relations/
+│   │   └── transformations/
+│   └── page.tsx
+├── components/
+│   ├── ui/           # Composants réutilisables
+│   └── layout/       # Layout global
+├── lib/
+│   └── db.ts         # Client Prisma singleton
+├── types/            # Types TypeScript
+└── hooks/            # Hooks custom
+prisma/
+└── schema.prisma     # Modèles de données
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗄️ Modèles de données
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```prisma
+model Character {
+  id              String   @id @default(cuid())
+  name            String
+  race            String
+  powerLevel      Int?
+  transformations Transformation[]
+  relations       Relation[] @relation("CharacterA")
+}
 
-## Deploy on Vercel
+model Transformation {
+  id          String    @id @default(cuid())
+  name        String
+  powerMultiplier Float?
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId String
+}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+model Relation {
+  id         String    @id @default(cuid())
+  type       String    # rival, allié, famille
+  characterA Character @relation("CharacterA", fields: [characterAId], references: [id])
+  characterAId String
+  characterBId String
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📡 API Routes
+
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| GET | `/api/characters` | Liste tous les personnages |
+| GET | `/api/characters/:id` | Détail d'un personnage |
+| GET | `/api/relations` | Relations entre personnages |
+| POST | `/api/ai/query` | Requête IA en langage naturel |
+
+---
+
+## 🌐 Déploiement
+
+Déployé sur **Vercel** — CI/CD automatique à chaque push sur `main`.
+
+---
+
+## 👤 Auteur
+
+Développé par **[TON NOM]** — projet de formation développeur web fullstack.
