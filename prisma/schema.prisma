@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Character {
+  id          Int    @id @default(autoincrement())
+  name        String
+  race        String
+  description String
+  image       String?
+  
+  transformations Transformation[]
+  relationships   Relationship[]
+}
+
+model Transformation {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+}
+
+model Relationship {
+  id          Int       @id @default(autoincrement())
+  type        String
+  targetName  String
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+}
