@@ -7,28 +7,42 @@ datasource db {
 }
 
 model Character {
-  id          Int    @id @default(autoincrement())
-  name        String
-  race        String
-  description String
-  image       String?
-  
+  id              Int              @id @default(autoincrement())
+  name            String
+  race            String?
+  description     String?
+  image           String?
+  powerLevel      Int?
+  role            String?
+  saga            String?
+  createdAt       DateTime         @default(now())
+
   transformations Transformation[]
-  relationships   Relationship[]
+  sourceRelations Relationship[]   @relation("SourceCharacter")
+  targetRelations Relationship[]   @relation("TargetCharacter")
 }
 
 model Transformation {
   id          Int       @id @default(autoincrement())
   name        String
-  description String
-  character   Character @relation(fields: [characterId], references: [id])
+  level       Int?
+  description String?
+  trigger     String?
+  color       String?
+  image       String?
+
   characterId Int
+  character   Character @relation(fields: [characterId], references: [id])
 }
 
 model Relationship {
   id          Int       @id @default(autoincrement())
   type        String
-  targetName  String
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int
+  description String?
+
+  sourceId    Int
+  targetId    Int
+
+  source      Character @relation("SourceCharacter", fields: [sourceId], references: [id])
+  target      Character @relation("TargetCharacter", fields: [targetId], references: [id])
 }

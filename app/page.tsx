@@ -1,65 +1,114 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const personnages = [
+  { nom: "Goku", type: "Saiyan · Niveau 9000+" },
+  { nom: "Vegeta", type: "Prince · Saiyan" },
+  { nom: "Gohan", type: "Demi-Saiyan" },
+  { nom: "Piccolo", type: "Namek · Mentor" },
+];
+
+const sagas = [
+  { numero: "01", nom: "Saiyan", texte: "L'arrivée de Raditz" },
+  { numero: "02", nom: "Namek", texte: "Les Dragon Balls" },
+  { numero: "03", nom: "Freezer", texte: "Super Saiyan" },
+  { numero: "04", nom: "Cell", texte: "L'arène parfaite" },
+  { numero: "05", nom: "Boo", texte: "Le réveil du mal" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="page">
+      <header className="navigation">
+        <div className="logo">
+          SAIYAN <span>LEGACY</span>
+        </div>
+
+        <nav>
+          <Link href="/">Accueil</Link>
+          <Link href="/saiyans">Personnages</Link>
+          <Link href="/timeline">Arcs</Link>
+          <Link href="/transformations">Boutique</Link>
+        </nav>
+
+        <Link href="/saiyans" className="bouton-nav">
+          Explorer →
+        </Link>
+      </header>
+
+      <section className="hero">
+        <div className="hero-texte">
+          <p className="surtitre">Vol. I · L’héritage Saiyan</p>
+
+          <h1>
+            SAIYAN <br />
+            <span>LEGACY</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="intro">
+            Explore l’univers de Dragon Ball comme un vieux magazine d’aventure :
+  héros, rivaux, transformations et sagas mythiques réunis dans une expérience
+  interactive.(fr)
           </p>
+     {/*       <p className="intro">
+            Explore the Dragon Ball universe like a vintage adventure magazine.(Angl)
+          </p>
+           <p className="intro">
+            Explora el universo de Dragon Ball como una revista de aventuras vintage..(Esp)
+          </p>
+
+         <P> ドラゴンボールの世界を、昔の冒険雑誌のように探検しよう。</P> */}
+
+          <div className="actions">
+            <Link href="/saiyans">Découvrir</Link>
+            <Link href="/saiyans">Personnages</Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="hero-image">
+          <div className="cercle"></div>
+          <div className="placeholder">Illus. Hero</div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="section">
+        <div className="titre-section">
+          <h2>Personnages</h2>
+          
+        </div>
+
+        <div className="grille-personnages">
+          {personnages.map((personnage) => (
+            <article className="carte" key={personnage.nom}>
+              <div className="image-mini">img</div>
+              <h3>{personnage.nom}</h3>
+              <p>{personnage.type}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="titre-section">
+          <h2>Sagas</h2>
+        </div>
+
+        <div className="bande-sagas">
+          {sagas.map((saga) => (
+            <article key={saga.numero}>
+              <strong>{saga.numero}</strong>
+              <h3>{saga.nom}</h3>
+              <p>{saga.texte}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <footer className="footer">
+        <p>
+          SAIYAN <span>LEGACY</span>
+        </p>
+        <p>Site FAN · Dragon ball</p>
+      </footer>
+    </main>
   );
 }
